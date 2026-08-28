@@ -20,6 +20,7 @@ tasks:
     with:
       repository: https://github.com/rwx-cloud/playwright-captain-reporter.git
       ref: ${{ init.commit-sha }}
+      github-token: ${{ github.token }}
 
   - key: tool-versions
     use: code
