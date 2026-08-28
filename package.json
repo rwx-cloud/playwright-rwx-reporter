@@ -1,11 +1,11 @@
 {
-  "name": "@rwx-cloud/playwright-captain-reporter",
+  "name": "@rwx-cloud/playwright-rwx-reporter",
   "version": "0.1.0",
-  "description": "Adds Captain retry metadata to Playwright's built-in JSON report.",
-  "homepage": "https://github.com/rwx-cloud/playwright-captain-reporter",
+  "description": "Adds RWX retry metadata to Playwright's built-in JSON report.",
+  "homepage": "https://github.com/rwx-cloud/playwright-rwx-reporter",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rwx-cloud/playwright-captain-reporter.git"
+    "url": "git+https://github.com/rwx-cloud/playwright-rwx-reporter.git"
   },
   "main": "index.js",
   "type": "commonjs",

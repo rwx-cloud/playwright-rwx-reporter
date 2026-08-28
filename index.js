@@ -1,4 +1,4 @@
-class CaptainReporter {
+class RwxReporter {
   onTestEnd(test) {
     let outermostSerialSuite;
 
@@ -17,4 +17,4 @@ class CaptainReporter {
   }
 }
 
-module.exports = CaptainReporter;
+module.exports = RwxReporter;

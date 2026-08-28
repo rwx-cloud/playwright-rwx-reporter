@@ -1,6 +1,6 @@
-# Playwright Captain reporter
+# Playwright RWX reporter
 
-`@rwx-cloud/playwright-captain-reporter` adds serial-group retry metadata to
+`@rwx-cloud/playwright-rwx-reporter` adds serial-group retry metadata to
 Playwright's built-in JSON report. Captain can use this metadata to retry the
 same serial boundary that Playwright retries automatically.
 
@@ -9,7 +9,7 @@ This package is a metadata shim. It does not replace or write the JSON report.
 ## Install
 
 ```sh
-npm install --save-dev @rwx-cloud/playwright-captain-reporter
+npm install --save-dev @rwx-cloud/playwright-rwx-reporter
 ```
 
 ## Configure
@@ -22,7 +22,7 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   reporter: [
     ["list"],
-    ["@rwx-cloud/playwright-captain-reporter"],
+    ["@rwx-cloud/playwright-rwx-reporter"],
     ["json", { outputFile: "playwright-results.json" }],
   ],
 });

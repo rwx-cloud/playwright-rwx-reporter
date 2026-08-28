@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 
-const CaptainReporter = require("..");
+const RwxReporter = require("..");
 
 test("does not annotate a test outside a serial suite", () => {
   const annotations = [{ type: "existing" }];
@@ -13,7 +13,7 @@ test("does not annotate a test outside a serial suite", () => {
     },
   };
 
-  new CaptainReporter().onTestEnd(playwrightTest);
+  new RwxReporter().onTestEnd(playwrightTest);
 
   assert.deepEqual(playwrightTest.annotations, annotations);
 });
@@ -34,7 +34,7 @@ test("annotates a test with its serial suite location", () => {
     parent: serialSuite,
   };
 
-  new CaptainReporter().onTestEnd(playwrightTest);
+  new RwxReporter().onTestEnd(playwrightTest);
 
   assert.deepEqual(playwrightTest.annotations, [
     { type: "existing" },
@@ -70,7 +70,7 @@ test("uses the outermost serial suite location", () => {
     parent: innerSerialSuite,
   };
 
-  new CaptainReporter().onTestEnd(playwrightTest);
+  new RwxReporter().onTestEnd(playwrightTest);
 
   assert.deepEqual(playwrightTest.annotations, [
     { type: "rwx:serial", location: outerLocation },

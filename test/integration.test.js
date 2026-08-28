@@ -24,7 +24,7 @@ function rwxSerialAnnotations(spec) {
 
 test("adds serial retry boundaries to Playwright's JSON report", (t) => {
   const outputDirectory = mkdtempSync(
-    path.join(tmpdir(), "playwright-captain-reporter-"),
+    path.join(tmpdir(), "playwright-rwx-reporter-"),
   );
   const outputFile = path.join(outputDirectory, "results.json");
   t.after(() => rmSync(outputDirectory, { recursive: true, force: true }));
