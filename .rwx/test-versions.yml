@@ -8,7 +8,6 @@ tasks:
     with:
       repository: https://github.com/rwx-cloud/playwright-rwx-reporter.git
       ref: ${{ init.commit-sha }}
-      github-token: ${{ github['rwx-cloud'].token }}
 
   - key: node
     call: nodejs/install 1.2.0
