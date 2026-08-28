@@ -1,0 +1,43 @@
+base:
+  image: ubuntu:24.04
+  config: rwx/base 1.2.0
+
+tasks:
+  - key: code
+    call: git/clone 2.1.0
+    with:
+      repository: https://github.com/rwx-cloud/playwright-rwx-reporter.git
+      ref: ${{ init.commit-sha }}
+      github-token: ${{ github['rwx-cloud'].token }}
+
+  - key: node
+    call: nodejs/install 1.2.0
+    with:
+      node-version: ${{ init.node-version }}
+
+  - key: node-modules
+    use: [code, node]
+    runner:
+      tmpfs: true
+    run: |
+      npm ci
+      npm install --no-save --no-package-lock "@playwright/test@${{ init.playwright-version }}"
+    filter:
+      - package.json
+      - package-lock.json
+
+  - key: lint
+    use: node-modules
+    run: npm run lint
+
+  - key: format
+    use: node-modules
+    run: npm run format:check
+
+  - key: unit-tests
+    use: node-modules
+    run: npm run test:unit
+
+  - key: integration-tests
+    use: node-modules
+    run: npm run test:integration
