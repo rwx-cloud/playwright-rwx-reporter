@@ -248,6 +248,12 @@ async function publish(options) {
     }
   });
 
+  check("package is configured for public npm access", () => {
+    if (manifest.publishConfig?.access !== "public") {
+      return "package.json must set publishConfig.access to public; scoped packages default to restricted access";
+    }
+  });
+
   check(`${tag} is free`, () => {
     if (
       run("git", ["rev-parse", "--verify", "--quiet", `refs/tags/${tag}`])
