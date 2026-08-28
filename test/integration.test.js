@@ -38,6 +38,7 @@ test("adds serial retry boundaries to Playwright's JSON report", (t) => {
       env: {
         ...process.env,
         PLAYWRIGHT_JSON_OUTPUT_FILE: outputFile,
+        PLAYWRIGHT_TEST_OUTPUT_DIR: path.join(outputDirectory, "test-results"),
       },
     },
   );
@@ -54,16 +55,16 @@ test("adds serial retry boundaries to Playwright's JSON report", (t) => {
   );
   const fixtureFile = path.join(fixtureRoot, "metadata.spec.js");
 
-  assert.deepEqual(captainSerialAnnotations(specsByTitle.get("normal test")), []);
   assert.deepEqual(
-    captainSerialAnnotations(specsByTitle.get("serial test")),
-    [
-      {
-        type: "captain:serial",
-        location: { file: fixtureFile, line: 5, column: 6 },
-      },
-    ],
+    captainSerialAnnotations(specsByTitle.get("normal test")),
+    [],
   );
+  assert.deepEqual(captainSerialAnnotations(specsByTitle.get("serial test")), [
+    {
+      type: "captain:serial",
+      location: { file: fixtureFile, line: 5, column: 6 },
+    },
+  ]);
   assert.deepEqual(
     captainSerialAnnotations(specsByTitle.get("nested serial test")),
     [

@@ -14,6 +14,10 @@
     "README.md"
   ],
   "scripts": {
+    "check": "npm run lint && npm run format:check && npm test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "biome lint .",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "node --test test/integration.test.js",
     "test:unit": "node --test test/reporter.test.js"
@@ -22,6 +26,8 @@
     "node": ">=20.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.62.1"
+    "@biomejs/biome": "2.5.11",
+    "@playwright/test": "1.62.1",
+    "prettier": "3.9.6"
   }
 }
