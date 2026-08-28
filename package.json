@@ -14,7 +14,8 @@
     "README.md"
   ],
   "scripts": {
-    "test": "npm run test:unit",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:integration": "node --test test/integration.test.js",
     "test:unit": "node --test test/reporter.test.js"
   },
   "engines": {
