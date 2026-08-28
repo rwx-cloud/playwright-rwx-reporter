@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Installing the latest RWX CLI from GitHub..."
+started_at=$SECONDS
+download="$(mktemp)"
+trap 'rm -f "$download"' EXIT
+
+curl --fail --silent --show-error --location --retry 3 \
+  https://github.com/rwx-cloud/rwx/releases/download/latest/rwx-linux-x86_64 \
+  --output "$download"
+chmod +x "$download"
+
+if ! command -v rwx >/dev/null 2>&1 || ! cmp --silent "$download" "$(command -v rwx)"; then
+  sudo install --mode=0755 "$download" /usr/local/bin/rwx
+fi
+
+rwx --version
+echo "RWX CLI setup completed in $((SECONDS - started_at))s."
