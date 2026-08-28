@@ -35,7 +35,7 @@ For a test inside one or more serial suites, the reporter adds one annotation:
 
 ```json
 {
-  "type": "captain:serial",
+  "type": "rwx:serial",
   "location": {
     "file": "/project/tests/example.spec.ts",
     "line": 10,

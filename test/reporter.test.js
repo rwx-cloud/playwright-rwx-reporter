@@ -38,7 +38,7 @@ test("annotates a test with its serial suite location", () => {
 
   assert.deepEqual(playwrightTest.annotations, [
     { type: "existing" },
-    { type: "captain:serial", location },
+    { type: "rwx:serial", location },
   ]);
 });
 
@@ -73,6 +73,6 @@ test("uses the outermost serial suite location", () => {
   new CaptainReporter().onTestEnd(playwrightTest);
 
   assert.deepEqual(playwrightTest.annotations, [
-    { type: "captain:serial", location: outerLocation },
+    { type: "rwx:serial", location: outerLocation },
   ]);
 });

@@ -10,7 +10,7 @@ class CaptainReporter {
 
     if (outermostSerialSuite) {
       test.annotations.push({
-        type: "captain:serial",
+        type: "rwx:serial",
         location: outermostSerialSuite.location,
       });
     }

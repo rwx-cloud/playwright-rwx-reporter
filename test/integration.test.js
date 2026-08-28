@@ -14,11 +14,11 @@ function collectSpecs(suites) {
   ]);
 }
 
-function captainSerialAnnotations(spec) {
+function rwxSerialAnnotations(spec) {
   assert.equal(spec.tests.length, 1);
 
   return spec.tests[0].annotations.filter(
-    (annotation) => annotation.type === "captain:serial",
+    (annotation) => annotation.type === "rwx:serial",
   );
 }
 
@@ -55,21 +55,18 @@ test("adds serial retry boundaries to Playwright's JSON report", (t) => {
   );
   const fixtureFile = path.join(fixtureRoot, "metadata.spec.js");
 
-  assert.deepEqual(
-    captainSerialAnnotations(specsByTitle.get("normal test")),
-    [],
-  );
-  assert.deepEqual(captainSerialAnnotations(specsByTitle.get("serial test")), [
+  assert.deepEqual(rwxSerialAnnotations(specsByTitle.get("normal test")), []);
+  assert.deepEqual(rwxSerialAnnotations(specsByTitle.get("serial test")), [
     {
-      type: "captain:serial",
+      type: "rwx:serial",
       location: { file: fixtureFile, line: 5, column: 6 },
     },
   ]);
   assert.deepEqual(
-    captainSerialAnnotations(specsByTitle.get("nested serial test")),
+    rwxSerialAnnotations(specsByTitle.get("nested serial test")),
     [
       {
-        type: "captain:serial",
+        type: "rwx:serial",
         location: { file: fixtureFile, line: 11, column: 6 },
       },
     ],
