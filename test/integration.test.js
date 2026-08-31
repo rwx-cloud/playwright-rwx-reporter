@@ -87,7 +87,7 @@ test("Captain retries the outer serial group", (t) => {
     0,
     "captain is not on PATH. Install it with `mise install`.",
   );
-  assert.equal(captainVersion.stdout.trim(), "v2.8.7");
+  assert.equal(captainVersion.stdout.trim(), "v2.8.8");
 
   const outputDirectory = mkdtempSync(
     path.join(tmpdir(), "playwright-rwx-captain-"),
@@ -136,6 +136,12 @@ test("Captain retries the outer serial group", (t) => {
     run.status,
     0,
     `Captain exited with status ${run.status}\n${run.stdout}\n${run.stderr}`,
+  );
+  assert.ok(
+    run.stdout.includes(
+      `tests: ${path.join(fixtureRoot, "captain-retry.spec.js")}:7`,
+    ),
+    run.stdout,
   );
   assert.equal(readFileSync(stateFile, "utf8"), "2");
 });

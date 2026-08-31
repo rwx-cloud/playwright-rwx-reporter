@@ -28,7 +28,7 @@ tasks:
   - key: captain
     call: rwx/install-captain 1.2.0
     with:
-      captain-version: v2.8.7
+      captain-version: v2.8.8
 
   - key: lint
     use: node-modules
