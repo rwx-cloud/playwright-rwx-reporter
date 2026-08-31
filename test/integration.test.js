@@ -7,6 +7,10 @@ const test = require("node:test");
 
 const fixtureRoot = path.join(__dirname, "fixtures", "playwright-project");
 
+function shellQuote(value) {
+  return `'${value.replaceAll("'", `'\\''`)}'`;
+}
+
 function collectSpecs(suites) {
   return suites.flatMap((suite) => [
     ...(suite.specs || []),
@@ -71,4 +75,67 @@ test("adds serial retry boundaries to Playwright's JSON report", (t) => {
       },
     ],
   );
+});
+
+test("Captain retries the outer serial group", (t) => {
+  const captainVersion = spawnSync("captain", ["--version"], {
+    encoding: "utf8",
+  });
+
+  assert.equal(
+    captainVersion.status,
+    0,
+    "captain is not on PATH. Install it with `mise install`.",
+  );
+  assert.equal(captainVersion.stdout.trim(), "v2.8.7");
+
+  const outputDirectory = mkdtempSync(
+    path.join(tmpdir(), "playwright-rwx-captain-"),
+  );
+  const outputFile = path.join(outputDirectory, "results.json");
+  const stateFile = path.join(outputDirectory, "serial-attempts");
+  const configFile = path.join(fixtureRoot, "captain-retry.config.js");
+  t.after(() => rmSync(outputDirectory, { recursive: true, force: true }));
+
+  const playwright = [
+    shellQuote(process.execPath),
+    shellQuote(require.resolve("@playwright/test/cli")),
+    "test",
+    "--config",
+    shellQuote(configFile),
+  ].join(" ");
+  const retry = `${playwright} {{ tests }} --project '{{ project }}'`;
+  const run = spawnSync(
+    "captain",
+    [
+      "run",
+      "reporter-playwright",
+      "--command",
+      playwright,
+      "--test-results",
+      outputFile,
+      "--retries",
+      "1",
+      "--retry-command",
+      retry,
+      "--quiet",
+    ],
+    {
+      cwd: outputDirectory,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        CAPTAIN_RETRY_STATE_FILE: stateFile,
+        PLAYWRIGHT_JSON_OUTPUT_FILE: outputFile,
+        PLAYWRIGHT_TEST_OUTPUT_DIR: path.join(outputDirectory, "test-results"),
+      },
+    },
+  );
+
+  assert.equal(
+    run.status,
+    0,
+    `Captain exited with status ${run.status}\n${run.stdout}\n${run.stderr}`,
+  );
+  assert.equal(readFileSync(stateFile, "utf8"), "2");
 });
