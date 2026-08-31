@@ -25,6 +25,11 @@ tasks:
       - package.json
       - package-lock.json
 
+  - key: captain
+    call: rwx/install-captain 1.2.0
+    with:
+      captain-version: v2.8.8
+
   - key: lint
     use: node-modules
     run: npm run lint
@@ -38,5 +43,5 @@ tasks:
     run: npm run test:unit
 
   - key: integration-tests
-    use: node-modules
+    use: [node-modules, captain]
     run: npm run test:integration
